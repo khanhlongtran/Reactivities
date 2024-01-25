@@ -28,6 +28,9 @@ axios.interceptors.response.use(async response => {
 const responseBody = <T>(response: AxiosResponse<T>) => response.data
 
 const requests = {
+    // Khi mà truyền responseBody như kia thì ta hiểu đây là callback function
+    // nhận vào response và lấy về response.data thôi
+    // axios.get tức là make HTTP Get tới url đó. Sau đó khi có response thì sẽ lấy response.data
     get: <T>(url: string) => axios.get<T>(url).then(responseBody),
     post: <T>(url: string, body: {}) => axios.post<T>(url, body).then(responseBody),
     put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),

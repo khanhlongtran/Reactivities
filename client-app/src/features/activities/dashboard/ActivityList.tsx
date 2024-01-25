@@ -33,9 +33,16 @@ export default function ActivityList({ activities, selectActivity, deleteActivit
                             <Item.Extra>
                                 {/* Click vào sẽ lấy được id của thằng vừa chọn, và lưu vào state */}
                                 {/* Nên là ở thằng Dashboard mới xem được state nếu đã chọn  */}
-                                {/* Còn nếu khhông chọn thì sẽ là false */}
-                                <Button onClick={(e) => handleActivityDelete(e, activity.id)} floated='right' content='View' color='blue' />
-                                <Button name={activity.id} loading={submitting && target === activity.id} onClick={() => deleteActivity(activity.id)} floated='right' content='Delete ' color='red' />
+                                {/* Khi mà ấn vào view thì state selectedActivity sẽ trả về thằng có Id vừa ấn */}
+                                {/* Cứ ấn xong thì re-render lại thì thằng kia được cập nhật  */}
+                                <Button onClick={() => selectActivity(activity.id)} floated='right' content='View' color='blue' />
+                                <Button
+                                    name={activity.id}
+                                    loading={submitting && target === activity.id}
+                                    onClick={(e) => handleActivityDelete(e, activity.id)}
+                                    floated='right'
+                                    content='Delete'
+                                    color='red' />
                                 <Label basic content={activity.category} />
                             </Item.Extra>
                         </Item.Content>

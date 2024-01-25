@@ -12,6 +12,7 @@ interface Props {
 // Đây là rename
 export default function ActivityForm({ activity: selectedActivity, closeForm, createOrEdit, submitting }: Props) {
 
+    // Nếu chưa có activity tức là create thì mình tạo một object rỗng để gán vào cái state đó
     const initialState = selectedActivity ?? {
         id: '',
         title: '',
@@ -25,7 +26,13 @@ export default function ActivityForm({ activity: selectedActivity, closeForm, cr
     const [activity, setActivity] = useState(initialState);
 
     function handleSubmit() {
-        createOrEdit(activity);
+        createOrEdit(activity); // nó chính là thằng này: handleCreateOrEditActivity
+        // Nó hết hợp các state: submitting, make HTTP request Update or Create
+        // list activities, editMode, selectedActivity
+        // Đây là một callback function
+        // trong một form gồm nhiều name. Để có thể lấy được tất cả giá trị của cái thẻ đó thì ta sử dụng onChange
+        // trong hàm onChange sẽ dồn tất cả cái name trong thẻ đó vào cái object activity sử dụng spread + useState ban đầu
+        // tức là nếu name đã trùng thì sẽ bị ghi đè lên thôi
     }
 
 
