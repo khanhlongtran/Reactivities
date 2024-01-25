@@ -15,15 +15,20 @@ export interface Props {
     closeForm: () => void;
     createOrEdit: (activity: Activity) => void;
     deleteActivity: (id: string) => void;
+    submitting: boolean
 }
 
 export default function ActivityDashboard({ activities, selectedActivity, selectActivity, cancelSelectActivity,
-    editMode, openForm, closeForm, createOrEdit, deleteActivity }: Props) {
+    editMode, openForm, closeForm, createOrEdit, deleteActivity, submitting }: Props) {
     return (
         <Grid>
             {/* Cột 10 này là để select thôi */}
             <Grid.Column width='10'>
-                <ActivityList activities={activities} selectActivity={selectActivity} deleteActivity={deleteActivity} />
+                <ActivityList
+                    activities={activities}
+                    selectActivity={selectActivity}
+                    deleteActivity={deleteActivity}
+                    submitting={submitting} />
             </Grid.Column>
             {/* Cột 6 này đã thêm cancel */}
             {/* selectedActivity là thằng cầm state hiện tại. Nếu chưa ấn là undefined, vấn rồi thì nó sẽ set State */}
@@ -43,7 +48,11 @@ export default function ActivityDashboard({ activities, selectedActivity, select
                 {/* Thì lúc này state của Edit mode được cập nhật. Do đó khi mà re-render 
                 thì Detail mất do điều kiện trên mà Form hiện ra */}
                 {editMode &&
-                    <ActivityForm closeForm={closeForm} activity={selectedActivity} createOrEdit={createOrEdit} />}
+                    <ActivityForm
+                        closeForm={closeForm}
+                        activity={selectedActivity}
+                        createOrEdit={createOrEdit}
+                        submitting={submitting} />}
             </Grid.Column>
         </Grid>
     )
