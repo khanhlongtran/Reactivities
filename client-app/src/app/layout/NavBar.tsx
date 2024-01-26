@@ -1,12 +1,14 @@
 import React from "react"
 import { Button, Container, Menu } from "semantic-ui-react"
+import { useStore } from "../stores/store"
 
-interface Props {
-    openForm: () => void;
-    // Create so no need id
-}
+// interface Props {
+//     openForm: () => void;
+//     // Create so no need id
+// }
 
-export default function NavBar({ openForm }: Props) {
+export default function NavBar() {
+    const { activityStore } = useStore();
     return (
         <Menu inverted fixed="top" style={{ backgroundImage: "linear-gradient(135deg, rgb(24, 42, 115) 0%, rgb(33, 138, 174) 69%, rgb(32, 167, 172) 89%)" }}>
             <Container >
@@ -20,7 +22,8 @@ export default function NavBar({ openForm }: Props) {
                 </Menu.Item>
 
                 <Menu.Item>
-                    <Button onClick={openForm} positive content='Create activity'>
+                    {/* openForm ở đây là create nên không cần id, mà chẳng có id nào mà truyền cả */}
+                    <Button onClick={() => activityStore.openForm()} positive content='Create activity'>
                     </Button>
                 </Menu.Item>
             </Container>

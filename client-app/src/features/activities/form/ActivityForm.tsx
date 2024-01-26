@@ -1,16 +1,20 @@
 import { ChangeEvent, useState } from "react";
 import { Button, Form, Segment } from "semantic-ui-react";
 import { Activity } from "../../../app/models/Activity";
+import { useStore } from "../../../app/stores/store";
+import { observer } from "mobx-react-lite";
 
-interface Props {
-    activity: Activity | undefined;
-    closeForm: () => void;
-    createOrEdit: (activity: Activity) => void;
-    submitting: boolean
-}
+// interface Props {
+// activity: Activity | undefined;
+// closeForm: () => void;
+// createOrEdit: (activity: Activity) => void;
+// submitting: boolean
+// }
 // Sử dụng other name. biến activity có thể sử dụng tên khác là selectedActivity
 // Đây là rename
-export default function ActivityForm({ activity: selectedActivity, closeForm, createOrEdit, submitting }: Props) {
+export default observer(function ActivityForm() {
+    const { activityStore } = useStore();
+    const { selectedActivity, closeForm, createActivity, loading, updateActivity } = activityStore
 
     // Nếu chưa có activity tức là create thì mình tạo một object rỗng để gán vào cái state đó
     const initialState = selectedActivity ?? {
@@ -26,7 +30,7 @@ export default function ActivityForm({ activity: selectedActivity, closeForm, cr
     const [activity, setActivity] = useState(initialState);
 
     function handleSubmit() {
-        createOrEdit(activity); // nó chính là thằng này: handleCreateOrEditActivity
+        activity.id ? updateActivity(activity) : createActivity(activity) // nó chính là thằng này: handleCreateOrEditActivity
         // Nó hết hợp các state: submitting, make HTTP request Update or Create
         // list activities, editMode, selectedActivity
         // Đây là một callback function
@@ -56,9 +60,9 @@ export default function ActivityForm({ activity: selectedActivity, closeForm, cr
                 <Form.Input type="date" placeholder='Date' value={activity.date} name='date' onChange={handleInputChange} />
                 <Form.Input placeholder='City' value={activity.city} name='city' onChange={handleInputChange} />
                 <Form.Input placeholder='Venue' value={activity.venue} name='venue' onChange={handleInputChange} />
-                <Button loading={submitting} floated='right' positive type='submit' content='Submit' />
+                <Button loading={loading} floated='right' positive type='submit' content='Submit' />
                 <Button onClick={closeForm} floated='right' type='button' content='Cancel' />
             </Form>
         </Segment>
     )
-}
+})
